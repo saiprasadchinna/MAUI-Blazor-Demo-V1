@@ -2,6 +2,7 @@
 
 public partial class MainPage : ContentPage
 {
+	//Start main page.
 	public MainPage()
 	{
 		InitializeComponent();
