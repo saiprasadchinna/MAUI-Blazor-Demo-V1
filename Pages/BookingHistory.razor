@@ -1,0 +1,72 @@
+﻿@page "/bookingHistory"
+@using MAUI_Blazor_Demo.Models;
+@using MAUI_Blazor_Demo.Data;
+
+@inject BookingService bookingService
+
+@if (bookingItems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>BookingHistory</h3>
+    <table class="table">
+        <tr>
+            <td>Name</td>
+            <td>
+                <input type="text" name="Name" id="txtName" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td>
+                <input type="text" name="Country" id="txtCountry" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type='button' id='btnAdd' @onclick="AddRequest">Add</button>
+            </td>
+            <td>
+                <button type='button' id='btnClear'>Clear</button>
+            </td>
+        </tr>
+    </table>
+    <table id="tblCustomers" class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bookingItem in bookingItems)
+            {
+                <tr>
+                    <td>@bookingItem.Id</td>
+                    <td>@bookingItem.Name</td>
+                    <td>@bookingItem.Address</td>
+                    <td>@bookingItem.status</td>
+                    <td>Confirm | Delete | Reject</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private List<Bookings> bookingItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        bookingItems = await bookingService.GetBookingDetailsAsyncFromAPI();
+    }
+
+    private void AddRequest()
+    {
+        //currentCount++;
+    }
+}
