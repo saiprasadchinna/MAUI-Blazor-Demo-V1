@@ -47,6 +47,49 @@ internal class RestService
 
         return Items;
     }
+    public async Task<bool> AddBookingDetails(string Name, string Address)
+    {
+        bool Items = false;
+
+        Uri uri = new Uri(string.Format("https://localhost:44302/api/Bookings/addBookings?Name=" + Name + "&Address=" + Address + "", string.Empty));
+        try
+        {
+            HttpResponseMessage response = await _client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                Items = JsonSerializer.Deserialize<bool>(content, _serializerOptions);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"\tERROR {0}", ex.Message);
+        }
+
+        return Items;
+    }
+
+    public async Task<bool> DoOperationBookingDetails(string type, int id)
+    {
+        bool Items = false;
+
+        Uri uri = new Uri(string.Format("https://localhost:44302/api/Bookings/doOperations?Type=" + type + "&Id=" + id + "", string.Empty));
+        try
+        {
+            HttpResponseMessage response = await _client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                Items = JsonSerializer.Deserialize<bool>(content, _serializerOptions);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"\tERROR {0}", ex.Message);
+        }
+
+        return Items;
+    }
 
     public async Task<List<WeatherForecast>> getWhetherDetails()
     {

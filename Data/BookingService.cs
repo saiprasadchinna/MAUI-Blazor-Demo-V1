@@ -20,5 +20,13 @@ namespace MAUI_Blazor_Demo.Data
         {
             return await service.getWhetherDetails();
         }
+        public async Task<bool> AddBookingDetailsAsyncFromAPI(string Name,string Address)
+        {
+            return await service.AddBookingDetails(Name, Address);
+        }
+        public async Task<bool> DoOperationBookingDetailsAsyncFromAPI(string type, int id)
+        {
+            return await service.DoOperationBookingDetails(type, id);
+        }
     }
 }

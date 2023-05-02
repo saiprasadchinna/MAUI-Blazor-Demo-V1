@@ -15,13 +15,14 @@ else
         <tr>
             <td>Name</td>
             <td>
-                <input type="text" name="Name" id="txtName" value="" />
+                <input type="text" name="Name" id="txtName" @bind="@name" @oninput="@((e) => { name=(string)e.Value;})" />
+
             </td>
         </tr>
         <tr>
-            <td>Country</td>
+            <td>Address</td>
             <td>
-                <input type="text" name="Country" id="txtCountry" value="" />
+                <input type="text" name="Country" id="txtCountry" @bind="@address" @oninput="@((e) => { address=(string)e.Value;})" />
             </td>
         </tr>
         <tr>
@@ -29,7 +30,7 @@ else
                 <button type='button' id='btnAdd' @onclick="AddRequest">Add</button>
             </td>
             <td>
-                <button type='button' id='btnClear'>Clear</button>
+                <button type='button' id='btnClear' @onclick="clearFields">Clear</button>
             </td>
         </tr>
     </table>
@@ -50,8 +51,12 @@ else
                     <td>@bookingItem.Id</td>
                     <td>@bookingItem.Name</td>
                     <td>@bookingItem.Address</td>
-                    <td>@bookingItem.status</td>
-                    <td>Confirm | Delete | Reject</td>
+                    <td>@bookingItem.StatusMessage</td>
+                    <td>
+                        <button type='button' id='btnClear' @onclick="@(e => DoOperation(bookingItem.Id,"Delete"))">Delete</button>
+                        <button type='button' id='btnClear' @onclick="@(e => DoOperation(bookingItem.Id,"Reject"))">Reject</button>
+                        <button type='button' id='btnClear' @onclick="@(e => DoOperation(bookingItem.Id,"Confirm"))">Confirm</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -59,14 +64,34 @@ else
 }
 @code {
     private List<Bookings> bookingItems;
+    private string name { get; set; } = "";
+    private string address { get; set; } = "";
+
 
     protected override async Task OnInitializedAsync()
     {
         bookingItems = await bookingService.GetBookingDetailsAsyncFromAPI();
     }
 
-    private void AddRequest()
+    private async Task AddRequest()
     {
-        //currentCount++;
+        bool status = await bookingService.AddBookingDetailsAsyncFromAPI(name, address);
+        if (status)
+        {
+            await OnInitializedAsync();
+        }
+    }
+    private async Task DoOperation(int id, string action)
+    {
+        bool status = await bookingService.DoOperationBookingDetailsAsyncFromAPI(action, id);
+        if (status)
+        {
+            await OnInitializedAsync();
+        }
+    }
+    private void clearFields()
+    {
+        name = "";
+        address = "";
     }
 }
