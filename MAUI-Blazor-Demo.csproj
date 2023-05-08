@@ -54,7 +54,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\" />
+      <ProjectReference Include="..\MAUI-Demo-Service\MAUI-Demo-Service.csproj" />
     </ItemGroup>
 
 </Project>

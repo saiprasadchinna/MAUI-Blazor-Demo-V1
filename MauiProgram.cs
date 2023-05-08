@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using MAUI_Blazor_Demo.Data;
+﻿using Microsoft.Extensions.Logging; 
+using MAUI_Demo_Service.Data;
 
 namespace MAUI_Blazor_Demo;
 
